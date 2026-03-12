@@ -1,11 +1,22 @@
-.main {
-    flex: 1;
-    padding: var(--space-xl);
-    overflow-y: auto;
+.left-panel{
+  width:var(--panel);flex-shrink:0;
+  background:var(--bg2);border-right:1px solid var(--border);
+  overflow-y:auto;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
 }
-
-.header {
-    margin-bottom: var(--space-xl);
-    padding-bottom: var(--space-lg);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+.panel-header{
+  padding:1.25rem 1.25rem 1rem;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+  background:var(--bg2);
 }
+.panel-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
+.panel-sub{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+.canvas{flex:1;overflow-y:auto;padding:2rem 2.5rem;background:var(--bg)}
+.canvas-header{
+  display:flex;align-items:center;gap:1rem;
+  margin-bottom:2rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid var(--border);
+}
+.canvas-sub{font-size:.82rem;color:var(--muted);margin-top:.3rem}

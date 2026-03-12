@@ -1,37 +1,15 @@
-.field {
-    margin-bottom: var(--space-md);
+.field{display:flex;flex-direction:column;gap:.4rem}
+.field label{font-size:.68rem;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.field input,.field textarea,.field select{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:.6rem .85rem;
+  color:var(--text);font-size:.84rem;outline:none;
+  transition:border-color .2s;width:100%;
 }
-
-.field label {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--muted);
-    margin-bottom: 0.3rem;
-    text-transform: uppercase;
-}
-
-.field input,
-.field textarea,
-.field select {
-    width: 100%;
-    padding: 0.65rem 1rem;
-    background: var(--bg3);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-sm);
-    color: var(--txt);
-}
-
-.field input:focus,
-.field textarea:focus,
-.field select:focus {
-    outline: none;
-    border-color: var(--a2);
-    box-shadow: 0 0 0 3px rgba(var(--a2-rgb), 0.1);
-}
-
-.field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
-}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--a1)}
+.field textarea{resize:vertical;min-height:72px;line-height:1.6}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.18)}
+.field select option{background:var(--bg2)}
+.field-row{display:grid;gap:.85rem}
+.field-row.c2{grid-template-columns:1fr 1fr}
+.field-row.c3{grid-template-columns:1fr 1fr 1fr}

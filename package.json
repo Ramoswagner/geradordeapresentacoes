@@ -1,6 +1,6 @@
 {
-  "name": "geradordeapresentacoes",
+  "name": "wren-presentation-builder",
   "version": "1.0.0",
-  "description": "Gerador de apresenta\u00e7\u00f5es",
+  "description": "Wren \u00b7 Presentation Builder",
   "main": "index.html"
 }

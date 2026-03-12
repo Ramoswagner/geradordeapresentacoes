@@ -1,18 +1,4 @@
 {
   "name": "Projeto \u00danico",
-  "version": "1.0",
-  "blocks": {
-    "cover": {
-      "enabled": true
-    },
-    "objective": {
-      "enabled": true
-    },
-    "resultados": {
-      "enabled": true
-    },
-    "closing": {
-      "enabled": true
-    }
-  }
+  "description": "Modelo para projeto individual"
 }

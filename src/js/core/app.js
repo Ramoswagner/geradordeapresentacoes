@@ -1,41 +1,33 @@
-// Wren Core App
-const Wren = {
-    state: {
-        projects: [],
-        activeProject: null,
-        theme: 'oceano'
-    },
-
-    init() {
-        console.log('Wren iniciado');
-        this.loadState();
-    },
-
-    loadState() {
-        const saved = localStorage.getItem('wren_state');
-        if (saved) {
-            try {
-                this.state = JSON.parse(saved);
-            } catch (e) {
-                console.error('Erro ao carregar estado');
-            }
-        }
-    },
-
-    saveState() {
-        localStorage.setItem('wren_state', JSON.stringify(this.state));
-    },
-
-    toast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        if (!container) return;
-        
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${message}</span>`;
-        container.appendChild(toast);
-        setTimeout(() => toast.remove(), 4000);
-    }
+// ════════════════════════════════════════════════════
+// GLOBAL STATE
+// ════════════════════════════════════════════════════
+const G = {
+  mode: 'single',    // single | portfolio | program
+  theme: 'default',
+  identity: {
+    instName:'', instDept:'', presTitle:'', presDate:'', presSub:'',
+    logoInst: null, logoProg: null,
+    bi2025: null, bi2026: null,
+  },
+  blocks: {
+    cover:      { enabled:true,  required:true,  label:'Capa',              icon:'🏷️' },
+    panorama:   { enabled:false, required:false, label:'Panorama Anterior', icon:'📊' },
+    team:       { enabled:false, required:false, label:'Equipe',            icon:'👥' },
+    objetivo:   { enabled:true,  required:true,  label:'Objetivo',          icon:'🎯' },
+    etapas:     { enabled:true,  required:false, label:'Etapas',            icon:'🪜' },
+    marcos:     { enabled:true,  required:false, label:'Marcos / Timeline', icon:'📍' },
+    indicadores:{ enabled:true,  required:false, label:'Indicadores KPI',   icon:'📊' },
+    resultados: { enabled:true,  required:false, label:'Resultados',        icon:'🏆' },
+    riscos:     { enabled:false, required:false, label:'Riscos & Atenção',  icon:'⚠️' },
+    licoes:     { enabled:false, required:false, label:'Lições Aprendidas', icon:'💡' },
+    antesdepois:{ enabled:false, required:false, label:'Antes & Depois',    icon:'🔄' },
+    evidencias: { enabled:true,  required:false, label:'Evidências',        icon:'📸' },
+    desafios:   { enabled:false, required:false, label:'Desafios Futuros',  icon:'🚀' },
+    closing:    { enabled:true,  required:false, label:'Encerramento',      icon:'🙏' },
+  },
+  projects: [],
+  activeProjectId: null,
 };
 
-document.addEventListener('DOMContentLoaded', () => Wren.init());
+// Project colors pool
+const PROJ_COLORS = ['#1D4ED8','#7C3AED','#0D9488','#D97706','#DC2626','#059669','#DB2777','#0369A1'];

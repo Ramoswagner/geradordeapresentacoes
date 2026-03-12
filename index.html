@@ -1,142 +1,322 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wren · Gerador de Apresentações</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- PptxGenJS -->
-    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-    
-    <style>
-        /* ===== VARIÁVEIS ===== */
-        :root {
-            --bg: #0A1929;
-            --bg2: #132337;
-            --bg3: #1E2F42;
-            --a1: #1D4ED8;
-            --a2: #06B6D4;
-            --a3: #10FFCB;
-            --txt: #FFFFFF;
-            --muted: #94A3B8;
-            --danger: #EF4444;
-            --success: #22C55E;
-            --a1-rgb: 29, 78, 216;
-            --a2-rgb: 6, 182, 212;
-            --a3-rgb: 16, 255, 203;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--txt);
-            min-height: 100vh;
-            font-size: 14px;
-        }
-
-        #app {
-            display: flex;
-            height: 100vh;
-        }
-
-        .sidebar {
-            width: 280px;
-            background: var(--bg2);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            padding: 2rem 1rem;
-            overflow-y: auto;
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-        }
-
-        .main {
-            flex: 1;
-            padding: 2rem;
-            overflow-y: auto;
-        }
-
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .theme-card {
-            background: var(--bg3);
-            border-radius: 10px;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .theme-preview {
-            display: flex;
-            height: 40px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-
-        .theme-preview span {
-            flex: 1;
-        }
-
-        h1 {
-            font-family: 'Syne', sans-serif;
-            margin-bottom: 2rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Wren · Presentation Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/base/reset.css">
+<link rel="stylesheet" href="src/css/base/variables.css">
+<link rel="stylesheet" href="src/css/base/typography.css">
+<link rel="stylesheet" href="src/css/base/animations.css">
+<link rel="stylesheet" href="src/css/components/buttons.css">
+<link rel="stylesheet" href="src/css/components/cards.css">
+<link rel="stylesheet" href="src/css/components/forms.css">
+<link rel="stylesheet" href="src/css/components/toast.css">
+<link rel="stylesheet" href="src/css/components/progress.css">
+<link rel="stylesheet" href="src/css/layout/sidebar.css">
+<link rel="stylesheet" href="src/css/layout/main.css">
+<link rel="stylesheet" href="src/css/layout/rail.css">
+<link rel="stylesheet" href="src/css/pages/home.css">
+<link rel="stylesheet" href="src/css/pages/projects.css">
+<link rel="stylesheet" href="src/css/pages/generate.css">
 </head>
 <body>
-    <div id="app">
-        <div class="sidebar">
-            <div class="logo">🐦 Wren</div>
-            <div style="color: var(--muted);">Projeto criado com sucesso!</div>
+
+<div id="app">
+  <!-- ICON RAIL -->
+  <nav class="icon-rail">
+    <div class="rail-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6 2 2 7 2 12s4 10 10 10 10-4.5 10-10S18 2 12 2zm0 3l3 5H9l3-5zm-5 7h10l-5 7-5-7z"/></svg>
+    </div>
+    <button class="rail-btn active" id="rail-home" onclick="railNav('home')">🏠<span class="tip">Início</span></button>
+    <button class="rail-btn" id="rail-identity" onclick="railNav('identity')">🏷️<span class="tip">Identidade</span></button>
+    <button class="rail-btn" id="rail-blocks" onclick="railNav('blocks')">🧱<span class="tip">Blocos</span></button>
+    <button class="rail-btn" id="rail-projects" onclick="railNav('projects')">📁<span class="tip">Projetos</span></button>
+    <button class="rail-btn" id="rail-theme" onclick="railNav('theme')">🎨<span class="tip">Tema</span></button>
+    <div class="rail-spacer"></div>
+    <div class="rail-sep"></div>
+    <button class="rail-btn" id="rail-generate" onclick="railNav('generate')">⚡<span class="tip">Gerar</span></button>
+  </nav>
+
+  <!-- LEFT PANEL -->
+  <aside class="left-panel" id="leftPanel">
+    <!-- HOME panel -->
+    <div id="lp-home">
+      <div class="panel-header">
+        <div class="panel-title">Wren</div>
+        <div class="panel-sub">Presentation Builder · by Wagner Ramos</div>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="eyebrow" style="margin-bottom:.75rem">Modo de Apresentação</div>
+        <div style="display:flex;flex-direction:column;gap:.45rem">
+          <button class="proj-card active" id="modeBtn-single" onclick="setMode('single')">
+            <span style="font-size:1.1rem">📄</span>
+            <div class="proj-info"><div class="proj-name">Projeto Único</div><div class="proj-leader">Um projeto, focado</div></div>
+          </button>
+          <button class="proj-card" id="modeBtn-portfolio" onclick="setMode('portfolio')">
+            <span style="font-size:1.1rem">📁</span>
+            <div class="proj-info"><div class="proj-name">Portfólio</div><div class="proj-leader">Vários projetos</div></div>
+          </button>
+          <button class="proj-card" id="modeBtn-program" onclick="setMode('program')">
+            <span style="font-size:1.1rem">🗂️</span>
+            <div class="proj-info"><div class="proj-name">Programa</div><div class="proj-leader">Projetos com eixo comum</div></div>
+          </button>
         </div>
-        <div class="main">
-            <h1>✅ Wren · Gerador de Apresentações</h1>
-            <p>Arquivo criado em: 1773348885.9420884</p>
-            <div class="theme-grid" id="theme-grid"></div>
-        </div>
+
+        <div class="rail-sep" style="width:100%;margin:1.25rem 0"></div>
+        <div class="eyebrow" style="margin-bottom:.75rem">Ação Rápida</div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:.5rem" onclick="railNav('generate')">⚡ Gerar apresentação</button>
+        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center" onclick="saveDraft()">💾 Salvar rascunho</button>
+      </div>
     </div>
 
-    <script>
-        const themes = [
-            { name: 'Oceano', colors: ['#0A1929', '#1D4ED8', '#06B6D4', '#10FFCB'] },
-            { name: 'Aurora', colors: ['#0F0720', '#6D28D9', '#DB2777', '#F0ABFC'] },
-            { name: 'Minimal', colors: ['#F8FAFC', '#0F172A', '#3B82F6', '#818CF8'] }
-        ];
+    <!-- IDENTITY panel -->
+    <div id="lp-identity" style="display:none">
+      <div class="panel-header">
+        <div class="panel-title">Identidade</div>
+        <div class="panel-sub">Logos e informações da organização</div>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:1rem">
+        <div id="upload-logoInst" class="img-slot" style="aspect-ratio:3/1;border-radius:10px" onclick="triggerUpload('uLogoInst')">
+          <input type="file" id="uLogoInst" accept="image/*" onchange="handleUpload('logoInst',this)">
+          <img class="prev" id="prev-logoInst">
+          <div class="img-slot-icon">🏢</div>
+          <div class="img-slot-label">Logo Instituição</div>
+          <button class="img-remove" id="rmv-logoInst" onclick="removeImg(event,'logoInst')">✕</button>
+        </div>
+        <div id="upload-logoProg" class="img-slot" style="aspect-ratio:3/1;border-radius:10px" onclick="triggerUpload('uLogoProg')">
+          <input type="file" id="uLogoProg" accept="image/*" onchange="handleUpload('logoProg',this)">
+          <img class="prev" id="prev-logoProg">
+          <div class="img-slot-icon">🎯</div>
+          <div class="img-slot-label">Logo Portfólio / Programa (opcional)</div>
+          <button class="img-remove" id="rmv-logoProg" onclick="removeImg(event,'logoProg')">✕</button>
+        </div>
+        <div class="field"><label>Nome da Instituição</label>
+          <input id="instName" placeholder="Ex: Hospital da Baleia" oninput="G.identity.instName=this.value">
+        </div>
+        <div class="field"><label>Departamento / Área (opcional)</label>
+          <input id="instDept" placeholder="Ex: Gestão e Desenvolvimento" oninput="G.identity.instDept=this.value">
+        </div>
+        <div class="field"><label>Título da Apresentação</label>
+          <input id="presTitle" placeholder="Ex: Navega Baleia 2026" oninput="G.identity.presTitle=this.value">
+        </div>
+        <div class="field"><label>Data / Período</label>
+          <input id="presDate" placeholder="Ex: Março 2026" oninput="G.identity.presDate=this.value">
+        </div>
+        <div class="field"><label>Subtítulo (opcional)</label>
+          <input id="presSub" placeholder="Ex: Portfólio de Projetos Estratégicos" oninput="G.identity.presSub=this.value">
+        </div>
+      </div>
+    </div>
 
-        const grid = document.getElementById('theme-grid');
-        themes.forEach(t => {
-            const card = document.createElement('div');
-            card.className = 'theme-card';
-            card.innerHTML = `
-                <div class="theme-preview">${t.colors.map(c => `<span style="background: ${c}"></span>`).join('')}</div>
-                <div>${t.name}</div>
-            `;
-            grid.appendChild(card);
-        });
-    </script>
+    <!-- BLOCKS panel -->
+    <div id="lp-blocks" style="display:none">
+      <div class="panel-header">
+        <div class="panel-title">Blocos</div>
+        <div class="panel-sub">Ative o que sua apresentação precisa</div>
+      </div>
+      <div style="padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem" id="blockToggleList"></div>
+    </div>
+
+    <!-- PROJECTS panel -->
+    <div id="lp-projects" style="display:none">
+      <div class="panel-header">
+        <div class="panel-title">Projetos</div>
+        <div class="panel-sub" id="projPanelSub">1 projeto ativo</div>
+      </div>
+      <div style="padding:1rem 1.25rem">
+        <div class="proj-list" id="projList"></div>
+        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center" onclick="addProject()">+ Adicionar projeto</button>
+      </div>
+    </div>
+
+    <!-- THEME panel -->
+    <div id="lp-theme" style="display:none">
+      <div class="panel-header">
+        <div class="panel-title">Tema Visual</div>
+        <div class="panel-sub">Paleta de cores da apresentação</div>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="palette-grid" id="paletteGrid"></div>
+      </div>
+    </div>
+
+    <!-- GENERATE panel -->
+    <div id="lp-generate" style="display:none">
+      <div class="panel-header">
+        <div class="panel-title">Gerar</div>
+        <div class="panel-sub">Exportar apresentação</div>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem">
+        <div class="gen-check-list" id="sideGenCheck"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="generatePptx()">📊 Gerar PPTX</button>
+        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center" onclick="generatePdf()">📄 Como PDF</button>
+        <div class="progress-outer" id="sideProgress" style="display:none"><div class="progress-inner" id="sideBar"></div></div>
+        <div class="progress-label" id="sideLabel"></div>
+        <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:.5rem" onclick="saveDraft()">💾 Salvar rascunho JSON</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CANVAS -->
+  <main class="canvas" id="canvas">
+    <!-- VIEW: HOME -->
+    <div class="view active" id="view-home">
+      <div class="canvas-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.35rem">
+            <div style="width:36px;height:36px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.1rem">🐦</div>
+            <div class="canvas-title font-syne">Wren</div>
+          </div>
+          <div class="canvas-sub">Presentation Builder · Dê forma ao que você construiu.</div>
+        </div>
+      </div>
+
+      <div class="mode-grid">
+        <div class="mode-card selected" id="mc-single" onclick="setMode('single');showView('projects')">
+          <div class="mode-icon">📄</div>
+          <div class="mode-name font-syne">Projeto Único</div>
+          <div class="mode-desc">Uma iniciativa completa, com todos os blocos que você escolher.</div>
+        </div>
+        <div class="mode-card" id="mc-portfolio" onclick="setMode('portfolio');showView('projects')">
+          <div class="mode-icon">📁</div>
+          <div class="mode-name font-syne">Portfólio</div>
+          <div class="mode-desc">Vários projetos numa mesma apresentação, com sumário automático.</div>
+        </div>
+        <div class="mode-card" id="mc-program" onclick="setMode('program');showView('projects')">
+          <div class="mode-icon">🗂️</div>
+          <div class="mode-name font-syne">Programa</div>
+          <div class="mode-desc">Projetos com eixo temático comum. Capa + panorama + projetos.</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+        <div class="card" style="cursor:pointer" onclick="railNav('identity')">
+          <div style="font-size:1.5rem;margin-bottom:.75rem">🏷️</div>
+          <div class="font-syne" style="font-size:.9rem;font-weight:700;margin-bottom:.35rem">Identidade</div>
+          <div style="font-size:.77rem;color:var(--muted);line-height:1.5">Logo e informações da organização ou pessoa.</div>
+        </div>
+        <div class="card" style="cursor:pointer" onclick="railNav('blocks')">
+          <div style="font-size:1.5rem;margin-bottom:.75rem">🧱</div>
+          <div class="font-syne" style="font-size:.9rem;font-weight:700;margin-bottom:.35rem">Blocos</div>
+          <div style="font-size:.77rem;color:var(--muted);line-height:1.5">Escolha quais seções incluir. Lego: só o que você precisa.</div>
+        </div>
+        <div class="card" style="cursor:pointer" onclick="railNav('theme')">
+          <div style="font-size:1.5rem;margin-bottom:.75rem">🎨</div>
+          <div class="font-syne" style="font-size:.9rem;font-weight:700;margin-bottom:.35rem">Tema Visual</div>
+          <div style="font-size:.77rem;color:var(--muted);line-height:1.5">5 paletas prontas. Escolha a que combina com o contexto.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="card-title">Como funciona</div>
+        <div style="display:flex;gap:2rem;flex-wrap:wrap">
+          <div style="flex:1;min-width:160px">
+            <div style="font-size:.72rem;color:var(--a2);font-family:'DM Mono',monospace;letter-spacing:.15em;margin-bottom:.4rem">01</div>
+            <div style="font-size:.85rem;font-weight:600;margin-bottom:.3rem">Escolha o modo</div>
+            <div style="font-size:.77rem;color:var(--muted);line-height:1.5">Projeto único, portfólio ou programa estratégico.</div>
+          </div>
+          <div style="flex:1;min-width:160px">
+            <div style="font-size:.72rem;color:var(--a2);font-family:'DM Mono',monospace;letter-spacing:.15em;margin-bottom:.4rem">02</div>
+            <div style="font-size:.85rem;font-weight:600;margin-bottom:.3rem">Monte os blocos</div>
+            <div style="font-size:.77rem;color:var(--muted);line-height:1.5">Ative só o que faz sentido. Cada bloco é um slide.</div>
+          </div>
+          <div style="flex:1;min-width:160px">
+            <div style="font-size:.72rem;color:var(--a2);font-family:'DM Mono',monospace;letter-spacing:.15em;margin-bottom:.4rem">03</div>
+            <div style="font-size:.85rem;font-weight:600;margin-bottom:.3rem">Preencha os dados</div>
+            <div style="font-size:.77rem;color:var(--muted);line-height:1.5">Textos, números, imagens. Placeholders para o que faltar.</div>
+          </div>
+          <div style="flex:1;min-width:160px">
+            <div style="font-size:.72rem;color:var(--a2);font-family:'DM Mono',monospace;letter-spacing:.15em;margin-bottom:.4rem">04</div>
+            <div style="font-size:.85rem;font-weight:600;margin-bottom:.3rem">Gere o PPTX</div>
+            <div style="font-size:.77rem;color:var(--muted);line-height:1.5">Download em segundos. Editável no PowerPoint / Google Slides.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: PROJECTS / FORM -->
+    <div class="view" id="view-projects">
+      <div class="canvas-header">
+        <div>
+          <div class="canvas-title font-syne" id="formViewTitle">Projetos</div>
+          <div class="canvas-sub" id="formViewSub">Preencha os dados de cada projeto</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:.5rem">
+          <button class="btn btn-outline btn-sm" onclick="addProject()" id="btnAddProj">+ Projeto</button>
+        </div>
+      </div>
+      <div id="projectForms"></div>
+    </div>
+
+    <!-- VIEW: THEME -->
+    <div class="view" id="view-theme">
+      <div class="canvas-header">
+        <div>
+          <div class="canvas-title font-syne">Tema Visual</div>
+          <div class="canvas-sub">Escolha a paleta da apresentação</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem" id="themeBigGrid"></div>
+    </div>
+
+    <!-- VIEW: GENERATE -->
+    <div class="view" id="view-generate">
+      <div class="canvas-header">
+        <div>
+          <div class="canvas-title font-syne">Gerar Apresentação</div>
+          <div class="canvas-sub">Tudo pronto? Exporte agora.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:1.5rem;align-items:start">
+        <div>
+          <div class="card" style="margin-bottom:1.25rem">
+            <div class="card-title">Checklist de Completude</div>
+            <div id="bigChecklist"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Estrutura que será gerada</div>
+            <div id="slideStructure" style="font-size:.8rem;color:var(--muted);line-height:2"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Exportar</div>
+            <div style="display:flex;flex-direction:column;gap:.75rem">
+              <button class="btn btn-primary" style="width:100%;justify-content:center;padding:.75rem" onclick="generatePptx()">📊 Baixar PPTX</button>
+              <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="generatePdf()">📄 Como PDF</button>
+              <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center" onclick="saveDraft()">💾 Salvar rascunho</button>
+            </div>
+            <div class="progress-outer" id="bigProgress" style="margin-top:1rem;display:none"><div class="progress-inner" id="bigBar"></div></div>
+            <div class="progress-label" id="bigLabel" style="margin-top:.35rem"></div>
+          </div>
+          <div class="card" style="margin-top:1rem">
+            <div class="card-title">Tema selecionado</div>
+            <div id="selectedThemeInfo"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- PptxGenJS -->
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="src/js/core/app.js"></script>
+<script src="src/js/core/state.js"></script>
+<script src="src/js/models/Project.js"></script>
+<script src="src/js/models/Theme.js"></script>
+<script src="src/js/services/ppt-generator.js"></script>
+<script src="src/js/services/storage.js"></script>
+<script src="src/js/components/ProjectForm.js"></script>
+<script src="src/js/components/ThemePicker.js"></script>
+<script src="src/js/views/HomeView.js"></script>
+<script src="src/js/utils/helpers.js"></script>
+<script src="src/js/utils/colorUtils.js"></script>
+<script src="src/js/utils/fileUtils.js"></script>
 </body>
 </html>

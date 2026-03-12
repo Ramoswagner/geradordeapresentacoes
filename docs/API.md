@@ -1,19 +1,8 @@
-# API do Wren
+# API Documentation
 
-## Estrutura de Dados
-
-### Projeto
-```javascript
-{
-  id: number,
-  name: string,
-  leader: string,
-  objective: string,
-  status: string
-}
-```
-
-## Métodos
-
-- `Wren.saveDraft()` - Exporta rascunho
-- `Wren.generatePPTX()` - Gera PowerPoint
+## Global State (G)
+- `G.mode`: 'single' | 'portfolio' | 'program'
+- `G.theme`: Tema atual
+- `G.identity`: Informações da instituição
+- `G.blocks`: Configuração dos blocos
+- `G.projects`: Lista de projetos

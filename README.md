@@ -1,6 +1,3 @@
-# Wren
+# Wren · Presentation Builder
 
-Gerador de Apresentações
-
-## Como usar
-Abra o index.html no navegador
+Gerador de apresentações profissionais

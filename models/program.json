@@ -1,19 +1,4 @@
 {
-  "name": "Programa Estrat\u00e9gico",
-  "version": "1.0",
-  "blocks": {
-    "cover": {
-      "enabled": true
-    },
-    "summary": {
-      "enabled": true
-    },
-    "panorama": {
-      "enabled": true
-    },
-    "projects": {
-      "min": 2,
-      "max": 15
-    }
-  }
+  "name": "Programa",
+  "description": "Modelo para programa estrat\u00e9gico"
 }
