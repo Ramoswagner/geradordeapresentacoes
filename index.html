@@ -3,21 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wren · Gerador de Apresentações</title>
+    <base href="/geradordeapresentacoes/">
+    <title>Wren · Gerador de Apresentações Estratégicas</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- PptxGenJS -->
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-    
+
     <style>
-        /* ===== VARIÁVEIS ===== */
+        /* ============================================
+           RESET & VARIÁVEIS
+        ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --bg: #0A1929;
             --bg2: #132337;
@@ -32,12 +41,20 @@
             --a1-rgb: 29, 78, 216;
             --a2-rgb: 6, 182, 212;
             --a3-rgb: 16, 255, 203;
+            
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        html {
+            height: 100%;
         }
 
         body {
@@ -46,97 +63,744 @@
             color: var(--txt);
             min-height: 100vh;
             font-size: 14px;
+            line-height: 1.6;
+            overflow: hidden;
+            height: 100%;
         }
 
         #app {
             display: flex;
             height: 100vh;
+            overflow: hidden;
         }
 
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+        }
+
+        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 280px;
             background: var(--bg2);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            padding: 2rem 1rem;
+            border-right: 1px solid rgba(255,255,255,0.08);
+            padding: var(--space-xl) var(--space-md);
             overflow-y: auto;
+            flex-shrink: 0;
         }
 
         .logo {
             font-family: 'Syne', sans-serif;
             font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-xl);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: var(--space-md);
+            font-weight: 500;
+        }
+
+        /* ===== MAIN ===== */
         .main {
             flex: 1;
-            padding: 2rem;
+            padding: var(--space-xl);
             overflow-y: auto;
         }
 
+        .header {
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.4rem;
+            border-radius: var(--radius-md);
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--a1), var(--a2));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(var(--a1-rgb), 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--txt);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--a2);
+            color: var(--a2);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg2);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--a2);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: linear-gradient(to bottom, var(--a1), var(--a2));
+            border-radius: 2px;
+        }
+
+        /* ===== THEME GRID ===== */
         .theme-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: var(--space-md);
         }
 
         .theme-card {
             background: var(--bg3);
-            border-radius: 10px;
-            padding: 1rem;
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
             cursor: pointer;
             transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .theme-card.selected {
+            border-color: var(--a3);
+            box-shadow: 0 0 20px rgba(var(--a3-rgb), 0.2);
         }
 
         .theme-preview {
             display: flex;
             height: 40px;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             overflow: hidden;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-sm);
         }
 
         .theme-preview span {
             flex: 1;
         }
 
-        h1 {
-            font-family: 'Syne', sans-serif;
-            margin-bottom: 2rem;
+        .theme-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .theme-desc {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        /* ===== PROJECT LIST ===== */
+        .project-list {
+            margin-bottom: var(--space-md);
+        }
+
+        .project-item {
+            background: var(--bg3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .project-item:hover {
+            background: var(--bg2);
+            border-color: rgba(var(--a2-rgb), 0.3);
+        }
+
+        .project-item.active {
+            border-color: var(--a2);
+            background: rgba(var(--a1-rgb), 0.1);
+        }
+
+        .project-color {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .project-leader {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        .project-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--muted);
+        }
+
+        .project-status.filled {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        /* ===== FORMS ===== */
+        .field {
+            margin-bottom: var(--space-md);
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            padding: 0.65rem 1rem;
+            background: var(--bg3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-sm);
+            color: var(--txt);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            outline: none;
+            border-color: var(--a2);
+            box-shadow: 0 0 0 3px rgba(var(--a2-rgb), 0.1);
+        }
+
+        .field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .toast {
+            padding: 0.75rem 1.25rem;
+            background: var(--bg3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--a2);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== MODE SELECTOR ===== */
+        .mode-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--bg3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .mode-btn:hover {
+            background: var(--bg2);
+            border-color: var(--a2);
+        }
+
+        .mode-btn.active {
+            background: rgba(var(--a1-rgb), 0.2);
+            border-color: var(--a2);
+            color: var(--a2);
+        }
+
+        /* ===== UPLOAD ===== */
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+        }
+
+        .upload-slot {
+            aspect-ratio: 16/9;
+            background: var(--bg3);
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-slot:hover {
+            border-color: var(--a2);
+            background: rgba(var(--a2-rgb), 0.05);
+        }
+
+        .upload-slot i {
+            font-size: 1.5rem;
+            color: var(--muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .upload-slot span {
+            font-size: 0.65rem;
+            color: var(--muted);
+        }
+
+        .upload-slot img.preview {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .upload-slot img.preview.show {
+            display: block;
+        }
+
+        .upload-slot .remove {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 0.6rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .upload-slot:hover .remove.show {
+            display: flex;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div id="app">
         <div class="sidebar">
-            <div class="logo">🐦 Wren</div>
-            <div style="color: var(--muted);">Projeto criado com sucesso!</div>
+            <div class="logo">
+                <div class="logo-icon">🐦</div>
+                Wren
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">MODO</div>
+                <div class="mode-selector">
+                    <div class="mode-btn active" onclick="setMode('single')">📄 Único</div>
+                    <div class="mode-btn" onclick="setMode('portfolio')">📁 Portfólio</div>
+                    <div class="mode-btn" onclick="setMode('program')">🗂️ Programa</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">PROJETOS</div>
+                <div class="project-list" id="project-list"></div>
+                <button class="btn btn-outline btn-sm btn-block" onclick="addProject()">
+                    <i class="fas fa-plus"></i> Novo Projeto
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">EXPORTAR</div>
+                <button class="btn btn-primary btn-block" onclick="generatePPTX()">
+                    <i class="fas fa-file-powerpoint"></i> Gerar PPTX
+                </button>
+                <button class="btn btn-outline btn-sm btn-block" style="margin-top:0.5rem" onclick="saveDraft()">
+                    <i class="fas fa-save"></i> Salvar Rascunho
+                </button>
+            </div>
         </div>
-        <div class="main">
-            <h1>✅ Wren · Gerador de Apresentações</h1>
-            <p>Arquivo criado em: 1773348885.9420884</p>
-            <div class="theme-grid" id="theme-grid"></div>
+
+        <div class="main" id="main-content">
+            <div class="header">
+                <h1 style="background:linear-gradient(135deg,var(--a1),var(--a2),var(--a3));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Wren</h1>
+                <p>Gerador de apresentações estratégicas · 14 temas exclusivos</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-palette"></i> Escolha o Tema Visual
+                </div>
+                <div class="theme-grid" id="theme-grid"></div>
+            </div>
+
+            <div class="card" id="project-form">
+                <div class="card-title">
+                    <i class="fas fa-pencil-alt"></i> <span id="form-title">Dados do Projeto</span>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Nome do Projeto</label>
+                        <input type="text" id="project-name" placeholder="Ex: Gestão do Ciclo de Receita">
+                    </div>
+                    <div class="field">
+                        <label>Líder / Responsável</label>
+                        <input type="text" id="project-leader" placeholder="Nome do líder">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Data de Início</label>
+                        <input type="date" id="project-start">
+                    </div>
+                    <div class="field">
+                        <label>Data de Conclusão</label>
+                        <input type="date" id="project-end">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Status</label>
+                    <select id="project-status">
+                        <option value="Concluído">Concluído</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Pausado">Pausado</option>
+                        <option value="Não iniciado">Não iniciado</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Objetivo do Projeto</label>
+                    <textarea id="project-objective" rows="4" placeholder="Descreva o objetivo principal do projeto..."></textarea>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="toast-container" id="toast-container"></div>
+
     <script>
-        const themes = [
-            { name: 'Oceano', colors: ['#0A1929', '#1D4ED8', '#06B6D4', '#10FFCB'] },
-            { name: 'Aurora', colors: ['#0F0720', '#6D28D9', '#DB2777', '#F0ABFC'] },
-            { name: 'Minimal', colors: ['#F8FAFC', '#0F172A', '#3B82F6', '#818CF8'] }
+        const THEMES = [
+            { id:'oceano', name:'Oceano Profundo', desc:'Azul profundo · Aqua', colors:['#0A1929','#1D4ED8','#06B6D4','#10FFCB'] },
+            { id:'aurora', name:'Aurora Boreal', desc:'Violeta · Rosa', colors:['#0F0720','#6D28D9','#DB2777','#F0ABFC'] },
+            { id:'minimal', name:'Minimal Elegance', desc:'Branco · Carbono', colors:['#F8FAFC','#0F172A','#3B82F6','#818CF8'] },
+            { id:'forest', name:'Floresta Encantada', desc:'Verde · Dourado', colors:['#0A1F0F','#166534','#D97706','#FCD34D'] },
+            { id:'terra', name:'Terra Cota', desc:'Terracota · Laranja', colors:['#1C0F0A','#B45309','#F97316','#FED7AA'] },
+            { id:'midnight', name:'Midnight Galaxy', desc:'Azul · Roxo', colors:['#0B0B1F','#312E81','#7C3AED','#C084FC'] },
+            { id:'rose', name:'Rose Gold', desc:'Rosa · Dourado', colors:['#1A0F14','#B4536B','#F59E0B','#FDE68A'] },
+            { id:'slate', name:'Slate & Steel', desc:'Cinza · Azul', colors:['#0F172A','#334155','#0284C7','#7DD3FC'] },
+            { id:'emerald', name:'Emerald City', desc:'Verde · Turquesa', colors:['#022C22','#059669','#14B8A6','#A7F3D0'] },
+            { id:'wine', name:'Bordeaux', desc:'Vinho · Borgonha', colors:['#1E0B14','#9D174D','#C2410C','#FED7AA'] },
+            { id:'navy', name:'Navy & Gold', desc:'Azul marinho · Dourado', colors:['#0A1A2F','#1E3A8A','#B45309','#FCD34D'] },
+            { id:'quartz', name:'Rose Quartz', desc:'Rosa quartz · Lavanda', colors:['#1A1423','#9D7E9E','#C79ECF','#F1D3E7'] },
+            { id:'graphite', name:'Graphite', desc:'Grafite · Azul', colors:['#121212','#2D2D2D','#2563EB','#60A5FA'] },
+            { id:'sunset', name:'Sunset Vibes', desc:'Laranja · Rosa', colors:['#1F0F0A','#C2410C','#E11D48','#FECACA'] }
         ];
 
-        const grid = document.getElementById('theme-grid');
-        themes.forEach(t => {
-            const card = document.createElement('div');
-            card.className = 'theme-card';
-            card.innerHTML = `
-                <div class="theme-preview">${t.colors.map(c => `<span style="background: ${c}"></span>`).join('')}</div>
-                <div>${t.name}</div>
-            `;
-            grid.appendChild(card);
-        });
+        let projects = [];
+        let activeProject = null;
+        let currentTheme = THEMES[0];
+
+        function renderThemes() {
+            const grid = document.getElementById('theme-grid');
+            grid.innerHTML = THEMES.map(t => `
+                <div class="theme-card ${t.id===currentTheme.id?'selected':''}" onclick="selectTheme('${t.id}')">
+                    <div class="theme-preview">${t.colors.map(c=>`<span style="background:${c}"></span>`).join('')}</div>
+                    <div class="theme-name">${t.name}</div>
+                    <div class="theme-desc">${t.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectTheme(id) {
+            currentTheme = THEMES.find(t => t.id === id);
+            document.documentElement.style.setProperty('--a1', currentTheme.colors[1]);
+            document.documentElement.style.setProperty('--a2', currentTheme.colors[2]);
+            document.documentElement.style.setProperty('--a3', currentTheme.colors[3]);
+            renderThemes();
+            showToast(`Tema "${currentTheme.name}" selecionado`, 'success');
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? `${parseInt(result[1],16)}, ${parseInt(result[2],16)}, ${parseInt(result[3],16)}` : '0,0,0';
+        }
+
+        function renderProjectList() {
+            const list = document.getElementById('project-list');
+            if(!list) return;
+            list.innerHTML = projects.map(p => `
+                <div class="project-item ${p.id===activeProject?.id?'active':''}" onclick="selectProject(${p.id})">
+                    <div class="project-color" style="background:${p.color}"></div>
+                    <div class="project-info">
+                        <div class="project-name">${p.name||'Sem nome'}</div>
+                        <div class="project-leader">${p.leader||'Líder'}</div>
+                    </div>
+                    <div class="project-status ${p.objective?'filled':''}"></div>
+                </div>
+            `).join('');
+        }
+
+        function selectProject(id) {
+            activeProject = projects.find(p => p.id === id);
+            renderProjectList();
+            updateForm();
+        }
+
+        function addProject() {
+            const colors = ['#1D4ED8','#7C3AED','#0D9488','#D97706','#DC2626'];
+            const newProject = {
+                id: Date.now(),
+                name: `Projeto ${projects.length+1}`,
+                leader: 'Novo Líder',
+                color: colors[projects.length%colors.length],
+                objective: '',
+                start: '',
+                end: '',
+                status: 'Em andamento'
+            };
+            projects.push(newProject);
+            activeProject = newProject;
+            renderProjectList();
+            updateForm();
+            showToast('Projeto adicionado!', 'success');
+        }
+
+        function updateForm() {
+            if(!activeProject) return;
+            document.getElementById('project-name').value = activeProject.name||'';
+            document.getElementById('project-leader').value = activeProject.leader||'';
+            document.getElementById('project-start').value = activeProject.start||'';
+            document.getElementById('project-end').value = activeProject.end||'';
+            document.getElementById('project-status').value = activeProject.status||'Em andamento';
+            document.getElementById('project-objective').value = activeProject.objective||'';
+            document.getElementById('form-title').textContent = activeProject.name||'Dados do Projeto';
+        }
+
+        function setMode(mode) {
+            document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+            document.querySelector(`[onclick="setMode('${mode}')"]`).classList.add('active');
+            showToast(`Modo: ${mode==='single'?'Projeto Único':mode==='portfolio'?'Portfólio':'Programa'}`, 'info');
+        }
+
+        async function generatePPTX() {
+            showToast('Gerando PPTX...', 'info');
+            try {
+                const pres = new PptxGenJS();
+                pres.layout = 'LAYOUT_16x9';
+                const slide = pres.addSlide();
+                slide.addText('Wren Presentation', {
+                    x:0.5, y:2, w:9, h:1,
+                    fontSize:48,
+                    color:currentTheme.colors[1].replace('#',''),
+                    bold:true,
+                    align:'center'
+                });
+                await pres.writeFile({fileName:`Wren_${Date.now()}.pptx`});
+                showToast('PPTX gerado!', 'success');
+            } catch(e) {
+                showToast('Erro ao gerar PPTX', 'error');
+            }
+        }
+
+        function saveDraft() {
+            const data = {projects, theme:currentTheme.id, timestamp:Date.now()};
+            const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `wren_draft_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Rascunho salvo!', 'success');
+        }
+
+        function showToast(msg, type='info') {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            t.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':type==='error'?'fa-exclamation-circle':'fa-info-circle'}"></i><span>${msg}</span>`;
+            c.appendChild(t);
+            setTimeout(()=>t.remove(), 4000);
+        }
+
+        document.getElementById('project-name')?.addEventListener('input', e => { if(activeProject) activeProject.name = e.target.value; renderProjectList(); });
+        document.getElementById('project-leader')?.addEventListener('input', e => { if(activeProject) activeProject.leader = e.target.value; });
+        document.getElementById('project-objective')?.addEventListener('input', e => { if(activeProject) activeProject.objective = e.target.value; renderProjectList(); });
+
+        renderThemes();
+        addProject();
     </script>
 </body>
 </html>
