@@ -1,0 +1,12 @@
+.theme-minimal {
+    --bg: #F8FAFC;
+    --bg2: #F8FAFCCC;
+    --bg3: #F8FAFC99;
+    --a1: #0F172A;
+    --a2: #3B82F6;
+    --a3: #818CF8;
+    
+    --a1-rgb: 15, 23, 42;
+    --a2-rgb: 59, 130, 246;
+    --a3-rgb: 129, 140, 248;
+}

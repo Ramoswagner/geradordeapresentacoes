@@ -1,0 +1,29 @@
+.sidebar {
+    width: 280px;
+    background: var(--bg2);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding: var(--space-xl) var(--space-md);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar-section {
+    margin-bottom: var(--space-xl);
+}
+
+.sidebar-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-md);
+}

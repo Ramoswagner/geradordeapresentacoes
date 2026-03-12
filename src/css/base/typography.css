@@ -1,0 +1,21 @@
+.font-syne { font-family: 'Syne', sans-serif; }
+.font-mono { font-family: 'DM Mono', monospace; }
+
+.grad-text {
+    background: linear-gradient(135deg, var(--a1), var(--a2), var(--a3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h1, .h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+h2, .h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+}

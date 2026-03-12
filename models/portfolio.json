@@ -1,0 +1,16 @@
+{
+  "name": "Portf\u00f3lio Estrat\u00e9gico",
+  "version": "1.0",
+  "blocks": {
+    "cover": {
+      "enabled": true
+    },
+    "summary": {
+      "enabled": true
+    },
+    "projects": {
+      "min": 2,
+      "max": 10
+    }
+  }
+}

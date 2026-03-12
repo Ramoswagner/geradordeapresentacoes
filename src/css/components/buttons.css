@@ -1,0 +1,42 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--a1), var(--a2));
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(var(--a1-rgb), 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--txt);
+}
+
+.btn-outline:hover {
+    border-color: var(--a2);
+    color: var(--a2);
+}
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+}
+
+.btn-block {
+    width: 100%;
+    justify-content: center;
+}

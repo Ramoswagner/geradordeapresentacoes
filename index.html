@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wren · Gerador de Apresentações</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PptxGenJS -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    
+    <style>
+        /* ===== VARIÁVEIS ===== */
+        :root {
+            --bg: #0A1929;
+            --bg2: #132337;
+            --bg3: #1E2F42;
+            --a1: #1D4ED8;
+            --a2: #06B6D4;
+            --a3: #10FFCB;
+            --txt: #FFFFFF;
+            --muted: #94A3B8;
+            --danger: #EF4444;
+            --success: #22C55E;
+            --a1-rgb: 29, 78, 216;
+            --a2-rgb: 6, 182, 212;
+            --a3-rgb: 16, 255, 203;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        #app {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--bg2);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem 1rem;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .main {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .theme-card {
+            background: var(--bg3);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-preview {
+            display: flex;
+            height: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-preview span {
+            flex: 1;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="sidebar">
+            <div class="logo">🐦 Wren</div>
+            <div style="color: var(--muted);">Projeto criado com sucesso!</div>
+        </div>
+        <div class="main">
+            <h1>✅ Wren · Gerador de Apresentações</h1>
+            <p>Arquivo criado em: 1773348885.9420884</p>
+            <div class="theme-grid" id="theme-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const themes = [
+            { name: 'Oceano', colors: ['#0A1929', '#1D4ED8', '#06B6D4', '#10FFCB'] },
+            { name: 'Aurora', colors: ['#0F0720', '#6D28D9', '#DB2777', '#F0ABFC'] },
+            { name: 'Minimal', colors: ['#F8FAFC', '#0F172A', '#3B82F6', '#818CF8'] }
+        ];
+
+        const grid = document.getElementById('theme-grid');
+        themes.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'theme-card';
+            card.innerHTML = `
+                <div class="theme-preview">${t.colors.map(c => `<span style="background: ${c}"></span>`).join('')}</div>
+                <div>${t.name}</div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

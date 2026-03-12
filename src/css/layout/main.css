@@ -1,0 +1,11 @@
+.main {
+    flex: 1;
+    padding: var(--space-xl);
+    overflow-y: auto;
+}
+
+.header {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
